@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  redis:
+    image: public.ecr.aws/docker/library/redis
+    container_name: redis
+    networks:
+      - bridge_network
+    volumes:
+      - type: volume
+        source: redis_vol
+        target: /data
+  go_app:
+    build: .
+    container_name: go_app
+    ports:
+      - target: 8080
+        published: 8080
+    networks:
+      - bridge_network
+networks:
+  bridge_network:
+volumes:
+  redis_vol:
